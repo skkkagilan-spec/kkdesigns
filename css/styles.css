@@ -426,12 +426,6 @@ textarea {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  /* Ensure SVG currentColor resolves to a visible tone in dark mode */
-  color: #EDE0C8;
-}
-
-[data-theme="light"] .brand-logo {
-  color: #2A2118;
 }
 
 .brand-logo img,
