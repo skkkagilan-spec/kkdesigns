@@ -19,26 +19,49 @@ document.addEventListener('DOMContentLoaded', () => {
    ========================================================================== */
 function initThemeManager() {
   const themeToggleBtn = document.getElementById('themeToggleBtn');
-  const themeLabel = document.getElementById('themeLabel');
-  const root = document.documentElement;
+  const themeLabel     = document.getElementById('themeLabel');
+  const navThemeBtn    = document.getElementById('navThemeBtn');
+  const moonIcon       = document.getElementById('navThemeIconMoon');
+  const sunIcon        = document.getElementById('navThemeIconSun');
+  const root           = document.documentElement;
 
   // Retrieve saved theme or default to dark
   const savedTheme = localStorage.getItem('kk_designs_theme') || 'dark';
   setTheme(savedTheme);
 
+  // Top-bar text button (desktop concierge bar)
   if (themeToggleBtn) {
-    themeToggleBtn.addEventListener('click', () => {
-      const currentTheme = root.getAttribute('data-theme') || 'dark';
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      setTheme(newTheme);
-    });
+    themeToggleBtn.addEventListener('click', toggleTheme);
+  }
+
+  // Navbar icon button (always visible, including mobile)
+  if (navThemeBtn) {
+    navThemeBtn.addEventListener('click', toggleTheme);
+  }
+
+  function toggleTheme() {
+    const currentTheme = root.getAttribute('data-theme') || 'dark';
+    setTheme(currentTheme === 'dark' ? 'light' : 'dark');
   }
 
   function setTheme(theme) {
     root.setAttribute('data-theme', theme);
     localStorage.setItem('kk_designs_theme', theme);
+
+    // Sync top-bar label text
     if (themeLabel) {
       themeLabel.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+    }
+
+    // Sync navbar icon: moon in dark mode, sun in light mode
+    if (moonIcon && sunIcon) {
+      if (theme === 'dark') {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display  = 'none';
+      } else {
+        moonIcon.style.display = 'none';
+        sunIcon.style.display  = 'block';
+      }
     }
   }
 }
